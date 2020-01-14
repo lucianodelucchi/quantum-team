@@ -106,4 +106,5 @@
     <a href="https://svelte.dev/tutorial">Svelte tutorial</a>
     to learn how to build Svelte apps.
   </p>
+  <p>CI/CD by <a href="https://zeit.co/">Zeit now</a></p>
 </main>
