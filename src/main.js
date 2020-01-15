@@ -3,7 +3,7 @@ import App from './App.svelte';
 const app = new App({
 	target: document.body,
 	props: {
-		quantumApi: 'http://random.openqu.org/api/rand'
+		quantumApi: 'https://cors-anywhere.herokuapp.com/http://random.openqu.org/api/rand'
 	}
 });
 

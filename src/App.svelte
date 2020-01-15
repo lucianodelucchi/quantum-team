@@ -1,8 +1,6 @@
 <script>
   import { slide } from "svelte/transition";
 
-  import jQuery from "jquery";
-
   export let quantumApi;
 
   // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
@@ -27,17 +25,16 @@
     return array;
   }
 
-  function getSeed() {
-    return jQuery
-      .getJSON(quantumApi + "?callback=?")
-      .then(data => {
-        console.log("Got quantum seed: ", data);
-        return data.result[0];
-      })
-      .catch(e => {
-        console.warn("error while calling the API, fall back to Math.random()");
-        return Math.random();
-      });
+  async function getSeed(){
+    try {
+      const response = await fetch(quantumApi);
+      const json = await response.json();
+      console.log("Got quantum seed: ", json);
+      return json.result[0];
+    } catch (error) {
+      console.warn("Error while calling the API, fall back to Math.random()", error);
+      return Math.random();
+    }
   }
 
   let player1 = "Fredy";
@@ -47,6 +44,8 @@
 
   let team1 = [];
   let team2 = [];
+  
+  let buildingTeams = false;
 
   $: canBuildTeams = player1 !== "" && player2 !== "" && player3 !== "" && player4 !== "";
 
@@ -55,12 +54,14 @@
   let history = [];
 
   async function handleClick(event) {
+    buildingTeams = true;
     const players = [player1, player2, player3, player4];
     const shuffledPlayers = await shuffle(players);
 
     team1 = shuffledPlayers.slice(0, 2);
     team2 = shuffledPlayers.slice(2, 4);
     history = [{ team1, team2 }, ...history];
+    buildingTeams = false;
   }
 
   function reset() {
@@ -102,7 +103,6 @@
     align-items: center;
     display: flex;
     justify-content: space-evenly;
-    padding: 0 30rem;
   }
 
   section.history div.entry div.left {
@@ -120,6 +120,19 @@
   section.history div.entry div.right {
     width: 10rem;
   }
+
+  .building-teams {
+        animation: blink 1s ease-out infinite;
+        font-size: x-large;
+    }
+    @keyframes blink {
+        50% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
 </style>
 
 <main>
@@ -130,17 +143,25 @@
       <input type="text" bind:value={player2} />
       <input type="text" bind:value={player3} />
       <input type="text" bind:value={player4} />
-      <button on:click={handleClick} disabled={!canBuildTeams}>
+      <button on:click={handleClick} disabled={!canBuildTeams || buildingTeams}>
         Build teams
       </button>
     </div>
   {/if}
 
+  {#if buildingTeams}
+    <div class="building-teams">⚙⚛⚙⚛</div>
+    <h2>Crunching some quatum numbers and building the teams...</h2>
+    <div class="building-teams">⚙⚛⚙⚛</div>
+  {/if}
+
   {#if teamsCompleted}
     <div class="teams" transition:slide>
-      <span>🎾🙆‍♂️🎾🙆‍♂️ {team1}</span>
-      <span>🆚</span>
-      <span>{team2} 🎾🙆‍♂️🎾🙆‍♂️</span>
+      <div>🎾🙆‍♂️🎾🙆‍♂️</div>
+      <div>{team1}</div>
+      <div>🆚</div>
+      <div>{team2}</div>
+      <div>🎾🙆‍♂️🎾🙆‍♂️</div>
     </div>
   {/if}
   <section class="history">
