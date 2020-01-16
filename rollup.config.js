@@ -5,6 +5,8 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import injectProcessEnv from 'rollup-plugin-inject-process-env';
 
+require('dotenv').config();
+
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
