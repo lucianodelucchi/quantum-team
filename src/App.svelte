@@ -222,4 +222,13 @@
     </ul>
   </section>
 </main>
-<footer><span class="version">version: {process.env.version}</span></footer>
+<footer>
+  <span class="version">
+    version:
+    {#if process.env.version}
+      <a href="{process.env.repo}/commit/{process.env.version}">{process.env.version}</a>
+    {:else}
+      TBD
+    {/if}
+  </span>
+</footer>
