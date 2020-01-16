@@ -53,6 +53,8 @@
 
   let history = [];
 
+  $: shouldShowHistory = history.some(() => true);
+
   async function handleClick(event) {
     buildingTeams = true;
     const players = [player1, player2, player3, player4];
@@ -133,22 +135,48 @@
             opacity: 1;
         }
     }
+
+    div.form{
+      margin: 2rem 0;
+    }
+
+    footer{
+      text-align: right;
+    }
+
+    .version{
+      font-size: x-small;
+    }
+
+    h1 div.disclaimer{
+      font-size: x-small;
+    }
+
+    section.credits {
+      font-size: small;
+      text-align: left;
+    }
 </style>
 
 <main>
-  <h1 on:click={reset}>The Quantum RNG<span title="It may use JS Math.random() when API is not available 🤷‍♂️">*</span> Team builder</h1>
+  <h1 on:click={reset}>
+    The Quantum RNG<span title="It may use JS Math.random() when API is not available 🤷‍♂️">*</span> Team builder
+    <div class="disclaimer">*It may use JS Math.random() when API is not available 🤷‍♂️</div>
+  </h1>
+  
   {#if !teamsCompleted}
-    <div transition:slide>
+    <div transition:slide class="form">
       <input type="text" bind:value={player1} />
       <input type="text" bind:value={player2} />
       <input type="text" bind:value={player3} />
       <input type="text" bind:value={player4} />
+      <br/>
       <button on:click={handleClick} disabled={!canBuildTeams || buildingTeams}>
         Build teams
       </button>
     </div>
   {/if}
-
+  
   {#if buildingTeams}
     <div class="building-teams">⚙⚛⚙⚛</div>
     <h2>Crunching some quatum numbers and building the teams...</h2>
@@ -164,26 +192,34 @@
       <div>🎾🙆‍♂️🎾🙆‍♂️</div>
     </div>
   {/if}
-  <section class="history">
-    <h3>History</h3>
-    {#each history as { team1, team2 }}
-      <div class="entry">
-        <div class="left">{team1}</div>
-        <div class="vs">🆚</div>
-        <div class="right">{team2}</div>
-      </div>
-    {/each}
+  {#if shouldShowHistory}
+    <section class="history">
+      <h3>Teams History</h3>
+      {#each history as { team1, team2 }}
+        <div class="entry">
+          <div class="left">{team1}</div>
+          <div class="vs">🆚</div>
+          <div class="right">{team2}</div>
+        </div>
+      {/each}
+    </section>
+    {/if}
+  <section class="credits">
+    <h4>Credits</h4>
+    <ul>
+      <li>
+        <a href="http://random.openqu.org/">Quantum RNG API@ETH Zürich</a>
+      </li>
+      <li>
+        Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.
+      </li>
+      <li>
+        CI/CD by <a href="https://zeit.co/">Zeit now</a>
+      </li>
+      <li>
+        CORS & https requests proxy by <a href="https://cors-anywhere.herokuapp.com">https://cors-anywhere.herokuapp.com/</a>
+      </li>
+    </ul>
   </section>
-  <p>
-    <a href="http://random.openqu.org/">Quantum RNG API@ETH Zürich</a>
-  </p>
-  <p>
-    Visit the
-    <a href="https://svelte.dev/tutorial">Svelte tutorial</a>
-    to learn how to build Svelte apps.
-  </p>
-  <p>
-    CI/CD by
-    <a href="https://zeit.co/">Zeit now</a>
-  </p>
 </main>
+<footer><span class="version">version: {process.env.version}</span></footer>
