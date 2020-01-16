@@ -53,7 +53,8 @@ export default {
 			usedNowForGitHub: process.env.NOW_GITHUB_DEPLOYMENT,
 			version: process.env.NOW_GITHUB_COMMIT_SHA,
 			repo: process.env.NOW_GITHUB_REPO,
-			author: process.env.NOW_GITHUB_COMMIT_AUTHOR_LOGIN
+			username: process.env.NOW_GITHUB_COMMIT_AUTHOR_LOGIN,
+			author: process.env.NOW_GITHUB_COMMIT_AUTHOR_NAME
          }),
 	],
 	watch: {

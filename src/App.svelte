@@ -226,7 +226,7 @@
   <span class="version">
     version:
     {#if process.env.usedNowForGitHub}
-      <a href="https://github.com/{process.env.author}/{process.env.repo}/commit/{process.env.version}">{process.env.version}</a>
+      <a href="https://github.com/{process.env.username}/{process.env.repo}/commit/{process.env.version}">{process.env.version.slice(0,7)} by {process.env.author}</a>
     {:else}
       TBD
     {/if}
