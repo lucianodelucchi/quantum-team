@@ -225,8 +225,8 @@
 <footer>
   <span class="version">
     version:
-    {#if process.env.version}
-      <a href="{process.env.repo}/commit/{process.env.version}">{process.env.version}</a>
+    {#if process.env.usedNowForGitHub}
+      <a href="https://github.com/{process.env.author}/{process.env.repo}/commit/{process.env.version}">{process.env.version}</a>
     {:else}
       TBD
     {/if}

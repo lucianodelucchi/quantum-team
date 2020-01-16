@@ -50,8 +50,10 @@ export default {
 		production && terser(),
 		injectProcessEnv({ 
 			// env variables included by zeit now https://zeit.co/docs/v2/more/now-for-github/
+			usedNowForGitHub: process.env.NOW_GITHUB_DEPLOYMENT,
 			version: process.env.NOW_GITHUB_COMMIT_SHA,
-			repo: process.env.NOW_GITHUB_REPO
+			repo: process.env.NOW_GITHUB_REPO,
+			author: process.env.NOW_GITHUB_COMMIT_AUTHOR_LOGIN
          }),
 	],
 	watch: {
