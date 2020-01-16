@@ -9,11 +9,11 @@
       temporaryValue,
       randomIndex;
 
+    const seeds = await getSeeds();
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
-      let seed = await getSeed();
       // Pick a remaining element...
-      randomIndex = Math.floor(seed * currentIndex);
+      randomIndex = Math.floor(seeds[currentIndex-1] * currentIndex);
       currentIndex -= 1;
 
       // And swap it with the current element.
@@ -25,15 +25,15 @@
     return array;
   }
 
-  async function getSeed(){
+  async function getSeeds(){
     try {
       const response = await fetch(quantumApi);
       const json = await response.json();
-      console.log("Got quantum seed: ", json);
-      return json.result[0];
+      console.log("Got quantum seeds: ", json);
+      return json.result;
     } catch (error) {
       console.warn("Error while calling the API, fall back to Math.random()", error);
-      return Math.random();
+      return [Math.random(), Math.random(), Math.random(), Math.random()];
     }
   }
 
