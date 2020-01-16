@@ -94,11 +94,7 @@
   }
 
   div.teams {
-    align-items: center;
-    display: flex;
     font-size: xx-large;
-    justify-content: space-evenly;
-    min-height: 10rem;
   }
 
   section.history div.entry {
