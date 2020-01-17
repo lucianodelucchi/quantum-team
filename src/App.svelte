@@ -1,15 +1,16 @@
 <script>
   import { slide } from "svelte/transition";
 
-  export let quantumApi;
+  const api = '/api';
+
+  let isQuantumSeed = false;
 
   // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-  async function shuffle(array = []) {
+  async function shuffle(array = [], seeds = []) {
     var currentIndex = array.length,
       temporaryValue,
       randomIndex;
 
-    const seeds = await getSeeds();
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
       // Pick a remaining element...
@@ -27,9 +28,12 @@
 
   async function getSeeds(){
     try {
-      const response = await fetch(quantumApi);
+      const response = await fetch(api);
       const json = await response.json();
-      console.log("Got quantum seeds: ", json);
+      console.log("Got:", json);
+
+      isQuantumSeed = json.type == 'quantum';
+
       return json.result;
     } catch (error) {
       console.warn("Error while calling the API, fall back to Math.random()", error);
@@ -58,7 +62,8 @@
   async function handleClick(event) {
     buildingTeams = true;
     const players = [player1, player2, player3, player4];
-    const shuffledPlayers = await shuffle(players);
+    const seeds = await getSeeds();
+    const shuffledPlayers = await shuffle(players, seeds);
 
     team1 = shuffledPlayers.slice(0, 2);
     team2 = shuffledPlayers.slice(2, 4);
@@ -97,6 +102,12 @@
     font-size: xx-large;
   }
 
+  div.teams details {
+    display: inline-block;
+    font-size: small;
+    margin: 1rem;
+  }
+
   section.history div.entry {
     align-items: center;
     display: flex;
@@ -122,36 +133,36 @@
   .building-teams {
         animation: blink 1s ease-out infinite;
         font-size: x-large;
-    }
-    @keyframes blink {
-        50% {
-            opacity: 0;
-        }
-        100% {
-            opacity: 1;
-        }
-    }
+  }
+  @keyframes blink {
+      50% {
+          opacity: 0;
+      }
+      100% {
+          opacity: 1;
+      }
+  }
 
-    div.form{
-      margin: 2rem 0;
-    }
+  div.form{
+    margin: 2rem 0;
+  }
 
-    footer{
-      text-align: right;
-    }
+  footer{
+    text-align: right;
+  }
 
-    .version{
-      font-size: x-small;
-    }
+  .version{
+    font-size: x-small;
+  }
 
-    h1 div.disclaimer{
-      font-size: x-small;
-    }
+  h1 div.disclaimer{
+    font-size: x-small;
+  }
 
-    section.credits {
-      font-size: small;
-      text-align: left;
-    }
+  section.credits {
+    font-size: small;
+    text-align: left;
+  }
 </style>
 
 <main>
@@ -186,6 +197,12 @@
       <div>🆚</div>
       <div>{team2}</div>
       <div>🎾🙆‍♂️🎾🙆‍♂️</div>
+      {#if !isQuantumSeed}
+        <details>
+          <summary>Pseudo random seeds used (click for more details)</summary>
+          <p>The results were calculated using pseudo random seeds, for some reason the Quatum API didn't work.</p>
+        </details>
+      {/if}
     </div>
   {/if}
   {#if shouldShowHistory}
@@ -204,13 +221,13 @@
     <h4>Credits</h4>
     <ul>
       <li>
-        <a href="http://random.openqu.org/">Quantum RNG API@ETH Zürich</a>
+        <s><a href="http://random.openqu.org/">Quantum RNG API@ETH Zürich</a></s> (not working since 2020-Jan-16)
       </li>
       <li>
         Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.
       </li>
       <li>
-        CI/CD by <a href="https://zeit.co/">Zeit now</a>
+        CI/CD & serverless functions by <a href="https://zeit.co/">Zeit now</a>
       </li>
       <li>
         CORS & https requests proxy by <a href="https://cors-anywhere.herokuapp.com">https://cors-anywhere.herokuapp.com/</a>
