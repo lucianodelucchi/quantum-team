@@ -34,7 +34,7 @@
 
       isQuantumSeed = json.type == 'quantum';
 
-      return json.result;
+      return json.numbers;
     } catch (error) {
       console.warn("Error while calling the API, fall back to Math.random()", error);
       return [Math.random(), Math.random(), Math.random(), Math.random()];
@@ -221,16 +221,13 @@
     <h4>Credits</h4>
     <ul>
       <li>
-        <s><a href="http://random.openqu.org/">Quantum RNG API@ETH Zürich</a></s> (not working since 2020-Jan-16)
+        <a href="http://random.openqu.org/">Quantum RNG API@ETH Zürich</a> (It wasn't working for a few weeks, so look out for quantum shortages)
       </li>
       <li>
         Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.
       </li>
       <li>
         CI/CD & serverless functions by <a href="https://zeit.co/">Zeit now</a>
-      </li>
-      <li>
-        CORS & https requests proxy by <a href="https://cors-anywhere.herokuapp.com">https://cors-anywhere.herokuapp.com/</a>
       </li>
     </ul>
   </section>
