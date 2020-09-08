@@ -24,7 +24,7 @@ export default {
 			// we'll extract any component CSS out into
 			// a separate file — better for performance
 			css: css => {
-				css.write('public/build/bundle.css');
+				css.write('bundle.css');
 			}
 		}),
 
@@ -35,7 +35,7 @@ export default {
 		// https://github.com/rollup/plugins/tree/master/packages/commonjs
 		resolve({
 			browser: true,
-			dedupe: importee => importee === 'svelte' || importee.startsWith('svelte/')
+			dedupe: ['svelte']
 		}),
 		commonjs(),
 
@@ -50,6 +50,7 @@ export default {
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
 		production && terser(),
+		
 		injectProcessEnv({ 
 			// env variables included by zeit now https://zeit.co/docs/v2/more/now-for-github/
 			usedNowForGitHub: process.env.NOW_GITHUB_DEPLOYMENT,
