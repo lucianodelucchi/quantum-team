@@ -52,12 +52,12 @@ export default {
 		production && terser(),
 		
 		injectProcessEnv({ 
-			// env variables included by zeit now https://zeit.co/docs/v2/more/now-for-github/
-			usedNowForGitHub: process.env.NOW_GITHUB_DEPLOYMENT,
-			version: process.env.NOW_GITHUB_COMMIT_SHA,
-			repo: process.env.NOW_GITHUB_REPO,
-			username: process.env.NOW_GITHUB_COMMIT_AUTHOR_LOGIN,
-			author: process.env.NOW_GITHUB_COMMIT_AUTHOR_NAME
+			// env variables included by vercel now https://vercel.com/docs/build-step#system-environment-variables
+			deployedUsingGithub: process.env.VERCEL_GITHUB_DEPLOYMENT,
+			version: process.env.VERCEL_GITHUB_COMMIT_SHA,
+			repo: process.env.VERCEL_GITHUB_REPO,
+			username: process.env.VERCEL_GITHUB_COMMIT_AUTHOR_LOGIN,
+			author: process.env.VERCEL_GITHUB_COMMIT_AUTHOR_NAME
          }),
 	],
 	watch: {

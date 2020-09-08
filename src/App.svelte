@@ -227,7 +227,7 @@
         Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.
       </li>
       <li>
-        CI/CD & serverless functions by <a href="https://zeit.co/">Zeit now</a>
+        CI/CD & serverless functions by <a href="https://vercel.com/">Vercel</a>
       </li>
     </ul>
   </section>
@@ -235,7 +235,7 @@
 <footer>
   <span class="version">
     version:
-    {#if process.env.usedNowForGitHub && process.env.username}
+    {#if process.env.deployedUsingGithub && process.env.username}
       <a href="https://github.com/{process.env.username}/{process.env.repo}/commit/{process.env.version}">{process.env.version.slice(0,7)} by {process.env.author}</a>
     {:else}
       TBD

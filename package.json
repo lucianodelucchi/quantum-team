@@ -7,7 +7,7 @@
     "start": "sirv public"
   },
   "devDependencies": {
-    "@now/node": "^1.4.0",
+    "@vercel/node": "1.8.2",
     "@rollup/plugin-commonjs": "^14.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
     "dotenv": "^8.2.0",
